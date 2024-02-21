@@ -1,0 +1,51 @@
+    | Öznitelik | Açıklama |
+    | --- | --- |
+    | id | Her bir gözlemin benzersiz bir tanımlayıcısı. |
+    | diagnosis | Tümörün teşhis sonucu. Malign (kötü huylu) veya benign (iyi huylu) olabilir. |
+    | radius_mean | Tümör hücrelerinin ortalama yarıçapı. |
+    | texture_mean | Tümör hücrelerinin ortalama dokusu. Yüzeyin pürüzlülüğünü veya ince yapısını ifade eder. |
+    | perimeter_mean | Tümörün ortalama çevresi. |
+    | area_mean | Tümörün ortalama alanı. |
+    | smoothness_mean | Tümör yüzeyinin ortalama düzgünlüğü. Düzgünlük, yüzey pürüzlülüğünün bir ölçüsüdür. |
+    | compactness_mean | Tümör hücrelerinin ortalama yoğunluğu. Yoğunluk, çevre ve alan arasındaki oranla ilgilidir. |
+    | concavity_mean | Tümör hücrelerinin ortalama oyukluk derecesi. Oyuklar ve girintilerin sıklığı ve derinliği hakkında bilgi verir. |
+    | concave points_mean | Tümör yüzeyindeki oyuk noktaların ortalama sayısı. |
+    | symmetry_mean | Tümörün ortalama simetrisi. |
+    | fractal_dimension_mean | Tümörün ortalama fraktal boyutu, kenar karmaşıklığını ve hücrelerin genel görünümünün "kırılmış" olma derecesini ifade eder. |
+    | radius_se | Yarıçapın standard error'u (standart hatası). |
+    | texture_se | Dokunun standard error'u. |
+    | perimeter_se | Çevrenin standard error'u. |
+    | area_se | Alanın standard error'u. |
+    | smoothness_se | Düzgünlüğün standard error'u. |
+    | compactness_se | Yoğunluğun standard error'u. |
+    | concavity_se | Oyukluk derecesinin standard error'u. |
+    | concave points_se | Oyuk noktaların sayısının standard error'u. |
+    | symmetry_se | Simetrinin standard error'u. |
+    | fractal_dimension_se | Fraktal boyutunun standard error'u. |
+    | radius_worst | Tümör hücrelerinin en büyük yarıçapı. |
+    | texture_worst | Tümör hücrelerinin en kötü (en pürüzlü veya en düzensiz) dokusu. |
+    | perimeter_worst | Tümörün en büyük çevresi. |
+    | area_worst | Tümörün en büyük alanı. |
+    | smoothness_worst | Tümör yüzeyinin en düşük düzgünlüğü. |
+    | compactness_worst | Tümör hücrelerinin en yüksek yoğunluğu. |
+    | concavity_worst | Tümör hücrelerinin en yüksek oyukluk derecesi. |
+    | concave points_worst | Tümör yüzeyindeki en yüksek oyuk noktaların sayısı. |
+    | symmetry_worst | Tümörün en düşük simetrisi. |
+    | fractal_dimension_worst | Tümörün en yüksek fraktal boyutu. |
+
+    ### Yüksek Korelasyonlar
+
+    - "radius_mean", "area_mean" ve "perimeter_mean" gibi özelliklerin birbiriyle yüksek korelasyonları bulunmaktadır (0.9'dan büyük), çünkü "area_mean" ve "perimeter_mean" "radius_mean" değerleri kullanılarak hesaplanır.
+    - "texture_mean" ve "texture_worst" arasında 0.98 gibi çok yüksek bir korelasyon mevcuttur ("texture_worst", tüm dokuların en büyük değeridir).
+    - "compactness_mean", "concavity_mean" ve "concave points_mean" arasında da 0.7 ile 0.9 arasında yüksek korelasyonlar gözlemlenir.
+    - "symmetry_mean" ve "symmetry_worst" 0.7 ile korele olma eğilimindedir.
+    - "fractal_dimension_mean" ve "fractal_dimension_worst" 0.77 ile korele olma eğilimindedir.
+    
+    ## Dağılım ve Aykırı Değerler:
+
+    - Benign (teşhis = 0) ve malign (teşhis = 1) veri noktalarında yarıçap, çevre ve alan değerlerinde belirli bir ayrım düzeyi mevcuttur.
+    - Her bir özelliğin kutu grafiğinde gösterildiği gibi aykırı değerler görünmektedir ve bu nedenle veri ön işleme sırasında ele alınması gerekmektedir.
+    - Dağılım, sağa çarpık bir Gauss dağılımı gibi görünmektedir.
+    - Texture_se değerleri hem malign hem de benign veri noktalarında aynı aralıkta bulunmaktadır.
+    - Texture_mean ve texture_worst değerlerinde benign ve malign veri noktalarında net bir ayrım görülmektedir.
+    
