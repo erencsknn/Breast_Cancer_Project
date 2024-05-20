@@ -45,6 +45,7 @@ class BreastCancer:
             lambda row: 1 if row == "M" else 0
         )
         return self.data
+        
 
 
     def fill_missing_data(self):

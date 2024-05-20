@@ -5,11 +5,12 @@ from plot import Plot as plt_class
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from eda_page import EDAComponent
+from mlp import MLP
 
 
 class App():
     def __init__(self):
-        
+        self.data_for_mlp = pd.read_csv("data.csv")
         self.datalist = {
             "Default Data": "data.csv",
         }
@@ -26,6 +27,7 @@ class App():
         df = self.load_data(uploaded_file)
         self.breast_cancer = bc(df)
         self.plot_class = plt_class(df)
+        self.mlp_class = MLP(self.data_for_mlp)
         if page == "Home":
             st.title("Breast Cancer Detection")
             st.title("Dataset Viewer")
@@ -94,20 +96,32 @@ class App():
 
 
     def display_score(self):
-        model_type = st.sidebar.radio("Select model", ("SVM","KNN", "Naive Bayes"))
-        st.subheader(f"{model_type} Model Score")
-        with st.spinner("Model is being trained... Please wait"):
-            self.breast_cancer.split_into_train_test()
-            if model_type == "SVM":
-                best_estimator = self.breast_cancer.random_search()
-            elif model_type == "KNN":
-                best_estimator = self.breast_cancer.random_search(KNeighborsClassifier())
-            else:
-                best_estimator = self.breast_cancer.naive_bayes_model(GaussianNB())
-            score = self.breast_cancer.evaluate_mode(best_estimator)
-            score_dict = {item.split(": ")[0]: float(item.split(": ")[1]) for item in score.split(", ")}
-            score_df = pd.DataFrame(list(score_dict.items()), columns=['Metric', 'Value'])
-            st.table(score_df)
-            st.subheader("Confusion Matrix")
-            self.plot_class.draw_conf_matrix(best_estimator)
-            st.success("Model has been successfully trained!")
+        learning_type = st.sidebar.radio("Select learning type", ("Machine Learning", "MLP"))
+        if learning_type == "Machine Learning":
+            model_type = st.sidebar.radio("Select model", ("SVM","KNN", "Naive Bayes"))
+            st.subheader(f"{model_type} Model Score")
+            with st.spinner("Model is being trained... Please wait"):
+                self.breast_cancer.split_into_train_test()
+                if model_type == "SVM":
+                    best_estimator = self.breast_cancer.random_search()
+                elif model_type == "KNN":
+                    best_estimator = self.breast_cancer.random_search(KNeighborsClassifier())
+                else:
+                    best_estimator = self.breast_cancer.naive_bayes_model(GaussianNB())
+                score = self.breast_cancer.evaluate_mode(best_estimator)
+                score_dict = {item.split(": ")[0]: float(item.split(": ")[1]) for item in score.split(", ")}
+                score_df = pd.DataFrame(list(score_dict.items()), columns=['Metric', 'Value'])
+                st.table(score_df)
+                st.subheader("Confusion Matrix")
+                self.plot_class.draw_conf_matrix(best_estimator)
+                st.success("Model has been successfully trained!")
+        elif learning_type == "MLP":
+            st.subheader("MLP Model Score")
+            with st.spinner("Model is being trained... Please wait"):
+                precision, recall, f1, accuracy = self.mlp_class.run()
+                score_dict = {"Precision": precision, "Recall": recall, "F1": f1, "Accuracy": accuracy}
+                score_df = pd.DataFrame(list(score_dict.items()), columns=['Metric', 'Value'])
+                st.table(score_df)
+                st.subheader("Confusion Matrix")
+                self.mlp_class.confusion_matrix()
+                st.success("Model has been successfully trained!")
