@@ -76,7 +76,7 @@ class BreastCancer:
     def split_into_train_test(self):
         X_pca_scaled,y = self.pca_analysis()
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
-            X_pca_scaled, y, test_size=0.2, random_state=16
+            X_pca_scaled, y, test_size=0.2, random_state=25
         )
         return self.X_train, self.X_test, self.y_train, self.y_test
     

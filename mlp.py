@@ -6,21 +6,47 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.model_selection import GridSearchCV
+from sklearn.neural_network import MLPClassifier
+
 
 class MLP(BreastCancer):
     def __init__(self,data_frame):
         super().__init__(data_frame)
         super().preprocess_data()
     
-    
+    def normalize_data(self):
+         self.X = self.data.drop("diagnosis", axis=1)
+         self.y = self.data["diagnosis"]
+         scaler = MinMaxScaler()
+         self.X = scaler.fit_transform(self.X)
+         return self.X, self.y       
+
+
     def train_test_split(self):
-        X = self.data.drop("diagnosis", axis=1)
-        y = self.data["diagnosis"]
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        self.normalize_data()
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=0.2, random_state=42)
         return self.X_train, self.X_test, self.y_train, self.y_test
     
+    # def grid_search(self):
+    #     param_grid = {
+    #         'hidden_layer_sizes': [(50,50), (100,100), (50,100,50), (100,50,100),(50,50,50),(100,100,100)],
+    #         'max_iter': [1000, 10000, 20000],
+    #         'activation': ['relu'],
+    #         'solver': ['adam'],
+    #         'learning_rate': ['adaptive'],
+    #     }
+    #     mlp = MLPClassifier(random_state=42)
+    #     grid_search = GridSearchCV(estimator=mlp, param_grid=param_grid, cv=3, n_jobs=-1, verbose=2)
+    #     grid_search.fit(self.X_train, self.y_train)
+    #     self.mlp = grid_search.best_estimator_
+    #     print("Best parameters found: ", grid_search.best_params_)
+    #     return self.mlp
+
     def train_mlp(self):
-        self.mlp = MLPClassifier(hidden_layer_sizes=(30,30,30),max_iter=1000, activation='relu',solver='adam',random_state=42,learning_rate='adaptive')
+        self.grid_search()
+        self.mlp = MLPClassifier(hidden_layer_sizes=(100,100,100),max_iter=1000, activation='relu',solver='adam',random_state=42,learning_rate='adaptive')
         self.mlp.fit(self.X_train, self.y_train)
         return self.mlp
     
@@ -36,6 +62,7 @@ class MLP(BreastCancer):
         ax.set_ylabel("Loss")
         # Streamlit'e figürü gönder
         st.pyplot(fig)
+
     def test_mlp(self):
         mlp = self.train_mlp()
         y_pred = mlp.predict(self.X_test)
