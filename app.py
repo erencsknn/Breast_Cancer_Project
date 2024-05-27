@@ -125,3 +125,6 @@ class App():
                 st.subheader("Confusion Matrix")
                 self.mlp_class.confusion_matrix()
                 st.success("Model has been successfully trained!")
+                st.title("Performance")
+                self.mlp_class.plot_performance()
+            

@@ -1,50 +1,53 @@
-| Feature | Description |
+| Özellik | Açıklama |
 | --- | --- |
-| id | Unique identifier for each observation. |
-| diagnosis | Diagnosis result of the tumor. It can be malignant (cancerous) or benign (non-cancerous). |
-| radius_mean | Mean radius of tumor cells. |
-| texture_mean | Mean texture of tumor cells. It represents the smoothness or roughness of the surface. |
-| perimeter_mean | Mean perimeter of the tumor. |
-| area_mean | Mean area of the tumor. |
-| smoothness_mean | Mean smoothness of the tumor surface. Smoothness is a measure of surface roughness. |
-| compactness_mean | Mean compactness of tumor cells. Compactness is related to the ratio of perimeter to area. |
-| concavity_mean | Mean concavity level of tumor cells. It indicates the frequency and depth of concavities and recesses. |
-| concave points_mean | Mean number of concave points on the tumor surface. |
-| symmetry_mean | Mean symmetry of the tumor. |
-| fractal_dimension_mean | Mean fractal dimension of the tumor, representing the degree of irregularity in the edge and overall appearance of cells. |
-| radius_se | Standard error of the radius. |
-| texture_se | Standard error of the texture. |
-| perimeter_se | Standard error of the perimeter. |
-| area_se | Standard error of the area. |
-| smoothness_se | Standard error of smoothness. |
-| compactness_se | Standard error of compactness. |
-| concavity_se | Standard error of concavity. |
-| concave points_se | Standard error of the number of concave points. |
-| symmetry_se | Standard error of symmetry. |
-| fractal_dimension_se | Standard error of fractal dimension. |
-| radius_worst | Worst (largest) radius of tumor cells. |
-| texture_worst | Worst (most rough or irregular) texture of tumor cells. |
-| perimeter_worst | Worst (largest) perimeter of the tumor. |
-| area_worst | Worst (largest) area of the tumor. |
-| smoothness_worst | Worst (lowest) smoothness of the tumor surface. |
-| compactness_worst | Worst (highest) compactness of tumor cells. |
-| concavity_worst | Worst (highest) concavity level of tumor cells. |
-| concave points_worst | Number of worst (highest) concave points on the tumor surface. |
-| symmetry_worst | Worst (lowest) symmetry of the tumor. |
-| fractal_dimension_worst | Worst (highest) fractal dimension of the tumor. |
+| id | Her gözlem için benzersiz tanımlayıcı. |
+| teşhis | Tümörün teşhis sonucu. Malign (kanserli) veya benign (kanserli olmayan) olabilir. |
+| radius_mean | Tümör hücrelerinin ortalama yarıçapı. |
+| texture_mean | Tümör hücrelerinin ortalama dokusu. Yüzeyin pürüzlülüğünü veya düzgünlüğünü temsil eder. |
+| perimeter_mean | Tümörün ortalama çevresi. |
+| area_mean | Tümörün ortalama alanı. |
+| smoothness_mean | Tümör yüzeyinin ortalama düzgünlüğü. Düzgünlük, yüzeyin pürüzlülüğünün bir ölçüsüdür. |
+| compactness_mean | Tümör hücrelerinin ortalama sıkışıklığı. Sıkışıklık, çevrenin alanına oranla ilişkilidir. |
+| concavity_mean | Tümör hücrelerinin ortalama çukurluk seviyesi. Çukurluk ve girintilerin sıklığını ve derinliğini gösterir. |
+| concave points_mean | Tümör yüzeyindeki ortalama girinti noktası sayısı. |
+| symmetry_mean | Tümörün ortalama simetrisi. |
+| fractal_dimension_mean | Tümörün ortalama fraktal boyutu, hücrelerin kenarındaki ve genel görünümündeki düzensizliği temsil eder. |
+| radius_se | Yarıçapın standart hatası. |
+| texture_se | Dokunun standart hatası. |
+| perimeter_se | Çevrenin standart hatası. |
+| area_se | Alanın standart hatası. |
+| smoothness_se | Düzgünlüğün standart hatası. |
+| compactness_se | Sıkışıklığın standart hatası. |
+| concavity_se | Çukurluğun standart hatası. |
+| concave points_se | Girinti noktalarının standart hatası. |
+| symmetry_se | Simetrinin standart hatası. |
+| fractal_dimension_se | Fraktal boyutun standart hatası. |
+| radius_worst | Tümör hücrelerinin en kötü (en büyük) yarıçapı. |
+| texture_worst | Tümör hücrelerinin en kötü (en pürüzlü veya düzensiz) dokusu. |
+| perimeter_worst | Tümörün en kötü (en büyük) çevresi. |
+| area_worst | Tümörün en kötü (en büyük) alanı. |
+| smoothness_worst | Tümör yüzeyinin en kötü (en düşük) düzgünlüğü. |
+| compactness_worst | Tümör hücrelerinin en kötü (en yüksek) sıkışıklığı. |
+| concavity_worst | Tümör hücrelerinin en kötü (en yüksek) çukurluk seviyesi. |
+| concave points_worst | Tümör yüzeyindeki en kötü (en yüksek) girinti noktalarının sayısı. |
+| symmetry_worst | Tümörün en kötü (en düşük) simetrisi. |
+| fractal_dimension_worst | Tümörün en kötü (en yüksek) fraktal boyutu. |
 
-### High Correlations
 
-- There are high correlations (greater than 0.9) between features like "radius_mean," "area_mean," and "perimeter_mean" because "area_mean" and "perimeter_mean" are calculated using "radius_mean" values.
-- There exists a very high correlation (0.98) between "texture_mean" and "texture_worst" ("texture_worst" being the maximum value of all textures).
-- Moderate to high correlations (0.7 to 0.9) are observed among "compactness_mean," "concavity_mean," and "concave points_mean."
-- There is a tendency for correlation (0.7) between "symmetry_mean" and "symmetry_worst."
-- "Fractal_dimension_mean" and "fractal_dimension_worst" tend to correlate (0.77).
 
-## Distribution and Outliers:
+### Yüksek Korelasyonlar
 
-- There is a certain level of differentiation in the values of radius, perimeter, and area between benign (diagnosis = 0) and malignant (diagnosis = 1) data points.
-- Outliers are visible in the box plot of each feature, indicating the necessity of addressing them during data preprocessing.
-- The distribution appears to be a right-skewed Gaussian-like distribution.
-- Texture_se values lie within the same range for both malignant and benign data points.
-- Clear distinctions between benign and malignant data points are observed in the values of texture_mean and texture_worst.
+- "radius_mean," "area_mean," ve "perimeter_mean" gibi özellikler arasında yüksek korelasyonlar (0.9'dan büyük) bulunmaktadır çünkü "area_mean" ve "perimeter_mean" değerleri "radius_mean" değerleri kullanılarak hesaplanmaktadır.
+- "texture_mean" ve "texture_worst" arasında çok yüksek bir korelasyon (0.98) bulunmaktadır ("texture_worst" tüm dokuların maksimum değeri olması nedeniyle).
+- "compactness_mean," "concavity_mean," ve "concave points_mean" arasında orta ila yüksek korelasyonlar (0.7 ile 0.9 arası) gözlemlenmektedir.
+- "symmetry_mean" ve "symmetry_worst" arasında korelasyon eğilimi (0.7) vardır.
+- "fractal_dimension_mean" ve "fractal_dimension_worst" arasında korelasyon eğilimi (0.77) bulunmaktadır.
+
+## Dağılım ve Aykırı Değerler:
+
+- Benign (diagnosis = 0) ve malign (diagnosis = 1) veri noktaları arasında yarıçap, çevre ve alan değerlerinde belirli bir farklılık bulunmaktadır.
+- Her özelliğin kutu grafiğinde aykırı değerler gözlemlenmektedir, bu da veri ön işleme sırasında bunların ele alınması gerektiğini göstermektedir.
+- Dağılım, sağa çarpık bir Gaussian benzeri dağılım olarak görünmektedir.
+- Texture_se değerleri malign ve benign veri noktaları için aynı aralıkta bulunmaktadır.
+- Texture_mean ve texture_worst değerleri arasında benign ve malign veri noktaları arasında net farklılıklar gözlemlenmektedir.
+

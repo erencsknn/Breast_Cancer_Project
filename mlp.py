@@ -16,34 +16,42 @@ class MLP(BreastCancer):
     def train_test_split(self):
         X = self.data.drop("diagnosis", axis=1)
         y = self.data["diagnosis"]
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        return X_train, X_test, y_train, y_test
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        return self.X_train, self.X_test, self.y_train, self.y_test
     
     def train_mlp(self):
-        X_train, X_test, y_train, y_test = self.train_test_split()
-        mlp = MLPClassifier(hidden_layer_sizes=(30,30,30))
-        mlp.fit(X_train, y_train)
-        return mlp
+        self.mlp = MLPClassifier(hidden_layer_sizes=(30,30,30),max_iter=1000, activation='relu',solver='adam',random_state=42,learning_rate='adaptive')
+        self.mlp.fit(self.X_train, self.y_train)
+        return self.mlp
     
+    def plot_performance(self):
+        if self.mlp is None:
+            st.error("Model henüz eğitilmedi. Lütfen önce modeli eğitin.")
+            return
+        # Yeni figür ve eksen oluştur
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.plot(self.mlp.loss_curve_)
+        ax.set_title("Loss Curve")
+        ax.set_xlabel("Iterations")
+        ax.set_ylabel("Loss")
+        # Streamlit'e figürü gönder
+        st.pyplot(fig)
     def test_mlp(self):
         mlp = self.train_mlp()
-        X_train, X_test, y_train, y_test = self.train_test_split()
-        y_pred = mlp.predict(X_test)
+        y_pred = mlp.predict(self.X_test)
         return y_pred
     
     def evaluate_mlp(self):
         y_pred = self.test_mlp()
-        X_train, X_test, y_train, y_test = self.train_test_split()
-        precision = precision_score(y_test, y_pred)
-        recall = recall_score(y_test, y_pred)
-        f1 = f1_score(y_test, y_pred)
-        accuracy = accuracy_score(y_test, y_pred)
+        precision = precision_score(self.y_test, y_pred)
+        recall = recall_score(self.y_test, y_pred)
+        f1 = f1_score(self.y_test, y_pred)
+        accuracy = accuracy_score(self.y_test, y_pred)
         
         return precision, recall, f1, accuracy
     def confusion_matrix(self):
         y_pred = self.test_mlp()
-        X_train, X_test, y_train, y_test = self.train_test_split()
-        conf_matrix = confusion_matrix(y_test, y_pred)
+        conf_matrix = confusion_matrix(self.y_test, y_pred)
         fig, ax = plt.subplots(figsize=(10, 10))
         sns.heatmap(conf_matrix, annot=True, fmt='d', cbar=True, ax=ax)
         plt.xlabel("Predicted")
